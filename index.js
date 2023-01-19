@@ -16,19 +16,27 @@ app.get("/", (req, res) => {
   `);
 });
 
+const bodyParser = (req, res, next) => {
+  if (req.method === "POST") {
+    req.on("data", (data) => {
+      const parsed = data.toString("utf8").split("&"); // recieve data, parse to array of strings
+      const formData = {}; // object for formated data
+      for (let pair of parsed) {
+        // loop through array
+        const [key, value] = pair.split("="); // split every element by '=' on two var
+        formData[key] = value; // add data to final object
+      }
+      req.body = formData;
+      next();
+    });
+  } else {
+    next();
+  }
+};
+
 // Request main page, method = POST
-app.post("/", (req, res) => {
-  // If data
-  req.on("data", (data) => {
-    const parsed = data.toString("utf8").split("&"); // recieve data, parse to array of strings
-    const formData = {}; // object for formated data
-    for (let pair of parsed) {
-      // loop through array
-      const [key, value] = pair.split("="); // split every element by '=' on two var
-      formData[key] = value; // add data to final object
-    }
-    console.log(formData);
-  });
+app.post("/", bodyParser, (req, res) => {
+  console.log(req.body);
   res.send("Account created");
 });
 
