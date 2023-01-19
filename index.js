@@ -1,5 +1,9 @@
 const express = require("express");
+const bodyParser = require("body-parser");
+
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: true })); // use auto parser
 
 // Request main page, method = GET
 app.get("/", (req, res) => {
@@ -16,26 +20,8 @@ app.get("/", (req, res) => {
   `);
 });
 
-const bodyParser = (req, res, next) => {
-  if (req.method === "POST") {
-    req.on("data", (data) => {
-      const parsed = data.toString("utf8").split("&"); // recieve data, parse to array of strings
-      const formData = {}; // object for formated data
-      for (let pair of parsed) {
-        // loop through array
-        const [key, value] = pair.split("="); // split every element by '=' on two var
-        formData[key] = value; // add data to final object
-      }
-      req.body = formData;
-      next();
-    });
-  } else {
-    next();
-  }
-};
-
 // Request main page, method = POST
-app.post("/", bodyParser, (req, res) => {
+app.post("/", (req, res) => {
   console.log(req.body);
   res.send("Account created");
 });
