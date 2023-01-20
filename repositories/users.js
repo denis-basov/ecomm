@@ -14,7 +14,31 @@ class UsersRepository {
       fs.writeFileSync(this.filename, "[]"); // if error, create file
     }
   }
-  async checkForFile() {}
+
+  // get all users
+  async getAll() {
+    // read file contents, parse, return data
+    return JSON.parse(await fs.promises.readFile(this.filename, { encoding: "utf8" }));
+  }
+
+  // create new user
+  async create(attrs) {
+    // get array of users from file
+    const records = await this.getAll();
+
+    // add user to array
+    records.push(attrs);
+
+    // write the updated array
+    await fs.promises.writeFile(this.filename, JSON.stringify(records));
+  }
 }
 
-new UsersRepository("users.json");
+const test = async () => {
+  const repo = new UsersRepository("users.json");
+  await repo.create({ email: "test@test.ru", password: "123456789" });
+  const users = await repo.getAll();
+  console.log(users);
+};
+
+test();
