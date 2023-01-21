@@ -20,9 +20,7 @@ class UsersRepository {
   }
 
   /**
-   *
    * get all users
-   *
    */
   async getAll() {
     // read file contents, parse, returns data
@@ -30,9 +28,7 @@ class UsersRepository {
   }
 
   /**
-   *
    *  create new user
-   *
    */
   async create(attrs) {
     // add random ID to user object
@@ -49,27 +45,21 @@ class UsersRepository {
   }
 
   /**
-   *
    *  write users array to file
-   *
    */
   async writeAll(records) {
     await fs.promises.writeFile(this.filename, JSON.stringify(records, null, 2));
   }
 
   /**
-   *
    *  generate random user ID
-   *
    */
   randomId() {
     return crypto.randomBytes(4).toString("hex");
   }
 
   /**
-   *
    *  get one user by ID
-   *
    */
   async getOne(id) {
     const records = await this.getAll();
@@ -77,14 +67,27 @@ class UsersRepository {
   }
 
   /**
-   *
    *  Delete user by ID
-   *
    */
   async delete(id) {
     const records = await this.getAll();
     const filteredRecords = records.filter((record) => record.id !== id);
     await this.writeAll(filteredRecords);
+  }
+
+  /**
+   *  Update user by ID
+   */
+  async update(id, attrs) {
+    const records = await this.getAll();
+    const record = records.find((record) => record.id === id);
+
+    if (!record) {
+      throw new Error(`Record with id ${id} not found`);
+    }
+
+    Object.assign(record, attrs);
+    await this.writeAll(records);
   }
 } // end of class
 
@@ -97,7 +100,8 @@ class UsersRepository {
  */
 const test = async () => {
   const repo = new UsersRepository("users.json");
-  await repo.delete("1aabe8cf");
+  // await repo.create({ email: "test@test.ru" });
+  await repo.update("c985fdb7", { password: "qwertyuiop" });
 };
 
 test();
