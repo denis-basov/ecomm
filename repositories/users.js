@@ -10,12 +10,11 @@ class UsersRepository {
       throw new Error("Creating a repository requires a filename");
     }
 
-    this.filename = filename; // write file name to property
-
+    this.filename = filename;
     try {
-      fs.accessSync(this.filename); // check access to file
+      fs.accessSync(this.filename);
     } catch (err) {
-      fs.writeFileSync(this.filename, "[]"); // if error, create file
+      fs.writeFileSync(this.filename, "[]");
     }
   }
 
@@ -23,7 +22,6 @@ class UsersRepository {
    * get all users
    */
   async getAll() {
-    // read file contents, parse, returns data
     return JSON.parse(await fs.promises.readFile(this.filename, { encoding: "utf8" }));
   }
 
@@ -31,16 +29,9 @@ class UsersRepository {
    *  create new user
    */
   async create(attrs) {
-    // add random ID to user object
     attrs.id = this.randomId();
-
-    // get array of users from file
     const records = await this.getAll();
-
-    // add user to array
     records.push(attrs);
-
-    // write the updated array
     await this.writeAll(records);
   }
 
@@ -107,27 +98,9 @@ class UsersRepository {
 
       if (found) {
         return record;
-      } else {
-        return `User not found`;
       }
     }
   }
-} // end of class
+}
 
-/**
- *
- *
- * test function
- *
- *
- */
-const test = async () => {
-  const repo = new UsersRepository("users.json");
-  // await repo.create({ email: "test@test.ru" });
-  // await repo.update("c985fdb7", { password: "qwertyuiop" });
-
-  const user = await repo.getOneBy({ id: "c985fdb7", password: "213123" });
-  console.log(user);
-};
-
-test();
+module.exports = new UsersRepository("users.json");
