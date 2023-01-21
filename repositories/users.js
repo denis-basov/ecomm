@@ -89,6 +89,29 @@ class UsersRepository {
     Object.assign(record, attrs);
     await this.writeAll(records);
   }
+
+  /**
+   *  Get user by any filter parameter
+   */
+  async getOneBy(filters) {
+    const records = await this.getAll();
+
+    for (let record of records) {
+      let found = false;
+
+      for (let key in filters) {
+        if (filters[key] === record[key]) {
+          found = true;
+        }
+      }
+
+      if (found) {
+        return record;
+      } else {
+        return `User not found`;
+      }
+    }
+  }
 } // end of class
 
 /**
@@ -101,7 +124,10 @@ class UsersRepository {
 const test = async () => {
   const repo = new UsersRepository("users.json");
   // await repo.create({ email: "test@test.ru" });
-  await repo.update("c985fdb7", { password: "qwertyuiop" });
+  // await repo.update("c985fdb7", { password: "qwertyuiop" });
+
+  const user = await repo.getOneBy({ id: "c985fdb7", password: "213123" });
+  console.log(user);
 };
 
 test();
