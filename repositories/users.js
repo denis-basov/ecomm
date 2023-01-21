@@ -25,7 +25,7 @@ class UsersRepository {
    *
    */
   async getAll() {
-    // read file contents, parse, return data
+    // read file contents, parse, returns data
     return JSON.parse(await fs.promises.readFile(this.filename, { encoding: "utf8" }));
   }
 
@@ -65,6 +65,27 @@ class UsersRepository {
   randomId() {
     return crypto.randomBytes(4).toString("hex");
   }
+
+  /**
+   *
+   *  get one user by ID
+   *
+   */
+  async getOne(id) {
+    const records = await this.getAll();
+    return records.find((record) => record.id === id);
+  }
+
+  /**
+   *
+   *  Delete user by ID
+   *
+   */
+  async delete(id) {
+    const records = await this.getAll();
+    const filteredRecords = records.filter((record) => record.id !== id);
+    await this.writeAll(filteredRecords);
+  }
 } // end of class
 
 /**
@@ -76,9 +97,7 @@ class UsersRepository {
  */
 const test = async () => {
   const repo = new UsersRepository("users.json");
-  await repo.create({ email: "test@test.ru", password: "123456789" });
-  const users = await repo.getAll();
-  console.log(users);
+  await repo.delete("1aabe8cf");
 };
 
 test();
