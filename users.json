@@ -1,5 +1,15 @@
 [
-    {
-        "email": "test@test.ru"
-    }
+  {
+    "email": "test@test.ru"
+  },
+  {
+    "email": "test1@test.ru",
+    "password": "123",
+    "id": "15eb6d05"
+  },
+  {
+    "email": "test2@test.ru",
+    "password": "123",
+    "id": "75dd5ddb"
+  }
 ]
