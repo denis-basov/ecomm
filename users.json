@@ -1,8 +1,5 @@
 [
   {
-    "email": "test@test.ru"
-  },
-  {
     "email": "test1@test.ru",
     "password": "123",
     "id": "15eb6d05"
@@ -11,5 +8,20 @@
     "email": "test2@test.ru",
     "password": "123",
     "id": "75dd5ddb"
+  },
+  {
+    "email": "test3@test.ru",
+    "password": "123",
+    "id": "51eca1f7"
+  },
+  {
+    "email": "test4@test.ru",
+    "password": "123",
+    "id": "0b40a541"
+  },
+  {
+    "email": "test5@test.ru",
+    "password": "123",
+    "id": "2cbadc8c"
   }
 ]
