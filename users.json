@@ -23,5 +23,20 @@
     "email": "test5@test.ru",
     "password": "123",
     "id": "2cbadc8c"
+  },
+  {
+    "email": "test6@test.ru",
+    "password": "11d7bfe5cdaf2b9decd53a3d4e3432edcef2a05cc2b98021cfd1733686b1c0901ec962997f0907f53c2ac6b9d7b2c015d66966d3e18be565da704ddf034442f8.c2eac224f414c257",
+    "id": "3fdf41b5"
+  },
+  {
+    "email": "test7@test.ru",
+    "password": "e33a745c37afcd2c19361f3a94e0cf7bea0cc8f9a4bd9beac8cbb88c890cc24a39eed1075994f6d3d687609b5b047a0e6f2327ada45bd7ee97a34c32c759c36a.924270bd18c1c056",
+    "id": "7f66cdd6"
+  },
+  {
+    "email": "test8@test.ru",
+    "password": "0e9ad82c4b3d959eccbe57633c580d9aedbc82fc1f68607a2f056c9ff5614ff4208a83326214a863abf908a506520b4951522be17bbf0ad0d6e73fa5fc083759.36adac4a2ea66cfe",
+    "id": "e23d4857"
   }
 ]

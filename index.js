@@ -8,6 +8,17 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true })); // use auto parser
 app.use(cookieSession({ keys: ["23jhkj3hdf89sdfhnjk48sdfnljm4e"] })); // use cookie encrypt
 
+// main page
+app.get("/", (req, res) => {
+  const markup = `
+    <div>
+      <a href="/signup">Sign Up</a><br>
+      <a href="/signin">Sign In</a>
+    </div>
+  `;
+  res.send(markup);
+});
+
 // Request signup page, method = GET
 app.get("/signup", (req, res) => {
   // Send html to client
@@ -43,13 +54,13 @@ app.post("/signup", async (req, res) => {
   // store the ID inside the cookie
   req.session.userId = user.id;
 
-  res.send("Account created<br><a href='/signout'>Sign out</a>");
+  res.send(`Account created, ${user.email.split("@")[0]}<br><a href='/signout'>Sign out</a>`);
 });
 
 // Request signout page, method = GET
 app.get("/signout", (req, res) => {
   req.session = null;
-  res.send("You are logged out");
+  res.send("You are logged out<br><a href='/'>Main page</a>");
 });
 
 // Request signin page, method = GET
@@ -75,12 +86,13 @@ app.post("/signin", async (req, res) => {
     return res.send(`Email not found`);
   }
 
-  if (password !== user.password) {
+  const isValidPassword = await usersRepo.comparePasswords(user.password, password);
+  if (!isValidPassword) {
     return res.send(`Password is not correct`);
   }
 
   req.session.userId = user.id;
-  res.send(`You are signed in`);
+  res.send(`You are signed in, ${user.email.split("@")[0]}<br><a href='/signout'>Sign out</a>`);
 });
 
 app.listen(3000, () => {
